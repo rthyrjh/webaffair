@@ -1,0 +1,2202 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Web Affair</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    
+    /* Variables de Color Iniciales (Pantalla principal intacta) */
+    :root {
+      --bg-main: #0d1b2a;
+      --accent-color: #ffb6c1;
+      --card-gradient: linear-gradient(135deg, #1b263b, #0d1b2a);
+      --rel-bg: radial-gradient(circle at center, #1a233a 0%, #0b0f19 100%);
+      --rel-card-bg: rgba(15, 23, 42, 0.95);
+      --rel-font: 'Segoe UI', sans-serif;
+      --card-border-radius: 12px;
+      --paper-border: none;
+    }
+
+    body { 
+      background-color: var(--bg-main); 
+      color: #fff; 
+      overflow-x: hidden; 
+      min-height: 100vh; 
+      transition: background-color 0.6s ease, background 0.6s ease, color 0.5s ease;
+    }
+
+    /* CURSORES PERSONALIZADOS SVG */
+    body.cursor-stethoscope, body.cursor-stethoscope * {
+      cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="%23ff6b81" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.8 2.3A.3.3 0 0 0 4.5 2.6V8a5 5 0 0 0 10 0V2.6a.3.3 0 0 0-.3-.3h-.9a.3.3 0 0 0-.3.3V8a3.5 3.5 0 0 1-7 0V2.6a.3.3 0 0 0-.3-.3h-.9z"/><path d="M9.5 13v3a3.5 3.5 0 0 0 7 0v-2"/><circle cx="16.5" cy="12.5" r="2.5" fill="%23ffffff"/></svg>'), auto !important;
+    }
+
+    body.cursor-mic, body.cursor-mic * {
+      cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="%23b8860b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="8" y1="22" x2="16" y2="22"/></svg>'), auto !important;
+    }
+
+    /* PLENG (17 AÑOS) - Beige Marfil, Pentagramas, Caoba y Dorado */
+    body.theme-pleng-17 {
+      --bg-main: #f9f6f0;
+      --accent-color: #9e782f;
+      --rel-bg: radial-gradient(circle at center, #fdfbf7 0%, #e8dfd1 100%);
+      --rel-card-bg: rgba(253, 250, 243, 0.96);
+      --rel-font: 'Courier New', Courier, monospace;
+      --card-border-radius: 10px;
+      --paper-border: 1px solid #c5a059;
+      color: #2c221e;
+
+      /* Fondo general: pentagramas difuminados + notas musicales dispersas */
+      background-color: #f9f6f0;
+      background-image:
+        /* Notas musicales dispersas (SVG) */
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cg fill='%23c5a059' fill-opacity='0.13'%3E%3Cpath d='M42 28c0-3.3 2.7-6 6-6h4v38c-3.3 1.2-5.5 4.3-5.5 7.8 0 4.7 3.8 8.5 8.5 8.5s8.5-3.8 8.5-8.5c0-3.5-2.2-6.6-5.5-7.8V16h-10c-6.6 0-12 5.4-12 12v4h6v-4z'/%3E%3Cpath d='M118 72c0-3.3 2.7-6 6-6h4v42c-3.3 1.2-5.5 4.3-5.5 7.8 0 4.7 3.8 8.5 8.5 8.5s8.5-3.8 8.5-8.5c0-3.5-2.2-6.6-5.5-7.8V60h-10c-6.6 0-12 5.4-12 12v4h6v-4z'/%3E%3Cpath d='M28 118c0-2.2 1.8-4 4-4h3v28c-2.2.8-3.7 2.9-3.7 5.2 0 3.1 2.5 5.7 5.7 5.7s5.7-2.5 5.7-5.7c0-2.3-1.5-4.4-3.7-5.2V108H32c-4.4 0-8 3.6-8 8v3h4v-3z'/%3E%3Cpath d='M142 22c0-2.2 1.8-4 4-4h3v26c-2.2.8-3.7 2.9-3.7 5.2 0 3.1 2.5 5.7 5.7 5.7s5.7-2.5 5.7-5.7c0-2.3-1.5-4.4-3.7-5.2V12h-6c-4.4 0-8 3.6-8 8v3h4v-3z'/%3E%3C/g%3E%3C/svg%3E"),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220' viewBox='0 0 220 220'%3E%3Cg fill='%23a88344' fill-opacity='0.10'%3E%3Cpath d='M55 45c0-2.8 2.2-5 5-5h3.5v32c-2.8 1-4.7 3.6-4.7 6.5 0 3.9 3.2 7.1 7.1 7.1s7.1-3.2 7.1-7.1c0-2.9-1.9-5.5-4.7-6.5V28H60c-5.5 0-10 4.5-10 10v3.5h5V45z'/%3E%3Cpath d='M155 110c0-2.8 2.2-5 5-5h3.5v36c-2.8 1-4.7 3.6-4.7 6.5 0 3.9 3.2 7.1 7.1 7.1s7.1-3.2 7.1-7.1c0-2.9-1.9-5.5-4.7-6.5V92H160c-5.5 0-10 4.5-10 10v3.5h5V110z'/%3E%3Cpath d='M90 165c0-2.2 1.8-4 4-4h2.5v24c-2.2.8-3.7 2.9-3.7 5.2 0 3.1 2.5 5.7 5.7 5.7s5.7-2.5 5.7-5.7c0-2.3-1.5-4.4-3.7-5.2V150H94c-4.4 0-8 3.6-8 8v2.5h4V165z'/%3E%3C/g%3E%3C/svg%3E"),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cg fill='%23c5a059' fill-opacity='0.09'%3E%3Cpath d='M30 90c0-2.5 2-4.5 4.5-4.5h3v28c-2.5.9-4.2 3.2-4.2 5.9 0 3.5 2.8 6.3 6.3 6.3s6.3-2.8 6.3-6.3c0-2.7-1.7-5-4.2-5.9V75H34.5c-5 0-9 4-9 9v3h4.5v-3z'/%3E%3Cpath d='M110 35c0-2.5 2-4.5 4.5-4.5h3v30c-2.5.9-4.2 3.2-4.2 5.9 0 3.5 2.8 6.3 6.3 6.3s6.3-2.8 6.3-6.3c0-2.7-1.7-5-4.2-5.9V20H114.5c-5 0-9 4-9 9v3h4.5v-3z'/%3E%3C/g%3E%3C/svg%3E"),
+        /* Pentagramas (lineas de pauta) difuminados - 5 lineas por grupo */
+        linear-gradient(to bottom,
+          transparent 0%, transparent 18%,
+          rgba(197, 160, 89, 0.11) 18%, rgba(197, 160, 89, 0.11) 19%,
+          transparent 19%, transparent 26%,
+          rgba(197, 160, 89, 0.11) 26%, rgba(197, 160, 89, 0.11) 27%,
+          transparent 27%, transparent 34%,
+          rgba(197, 160, 89, 0.11) 34%, rgba(197, 160, 89, 0.11) 35%,
+          transparent 35%, transparent 42%,
+          rgba(197, 160, 89, 0.11) 42%, rgba(197, 160, 89, 0.11) 43%,
+          transparent 43%, transparent 50%,
+          rgba(197, 160, 89, 0.11) 50%, rgba(197, 160, 89, 0.11) 51%,
+          transparent 51%, transparent 100%),
+        linear-gradient(to bottom,
+          transparent 0%, transparent 68%,
+          rgba(197, 160, 89, 0.09) 68%, rgba(197, 160, 89, 0.09) 69%,
+          transparent 69%, transparent 76%,
+          rgba(197, 160, 89, 0.09) 76%, rgba(197, 160, 89, 0.09) 77%,
+          transparent 77%, transparent 84%,
+          rgba(197, 160, 89, 0.09) 84%, rgba(197, 160, 89, 0.09) 85%,
+          transparent 85%, transparent 92%,
+          rgba(197, 160, 89, 0.09) 92%, rgba(197, 160, 89, 0.09) 93%,
+          transparent 93%, transparent 100%),
+        /* Lineas mas suaves de relleno */
+        linear-gradient(to bottom, rgba(197, 160, 89, 0.04) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(197, 160, 89, 0.06) 1px, transparent 1px);
+      background-size:
+        180px 180px,
+        220px 220px,
+        160px 160px,
+        100% 140px,
+        100% 160px,
+        100% 12px,
+        100% 28px;
+      background-position:
+        0 0,
+        90px 60px,
+        40px 120px,
+        0 0,
+        0 70px,
+        0 0,
+        0 0;
+      background-repeat: repeat;
+    }
+
+    body.theme-pleng-17 .cork-board {
+      border: 18px solid #4a2c11;
+      border-image: linear-gradient(to bottom, #633a18, #4a2c11, #2d1806) 30;
+      box-shadow: inset 0 0 40px rgba(0,0,0,0.5), 0 15px 35px rgba(74, 44, 17, 0.3);
+    }
+
+    body.theme-pleng-17 .info-layout {
+      background: #fcf9f2;
+      border: 2px solid #a88344;
+      box-shadow: 0 15px 35px rgba(74, 44, 17, 0.2);
+      color: #2c221e;
+      position: relative;
+    }
+
+    body.theme-pleng-17 .side-tabs {
+      background: #eee5d8;
+      border-left: 2px solid #a88344;
+    }
+
+    body.theme-pleng-17 .side-tab-btn {
+      color: #594532;
+      font-family: 'Courier New', Courier, monospace;
+      font-weight: bold;
+    }
+
+    body.theme-pleng-17 .side-tab-btn.active {
+      background: #dfd2bf;
+      color: #3b2816;
+      border-left-color: #a88344;
+    }
+
+    /* Pleng (30 años) */
+    body.theme-pleng-30 {
+      --bg-main: #eae3d2;
+      --accent-color: #8c6d46;
+      --rel-bg: radial-gradient(circle at center, #f4f1ea 0%, #d6ccc2 100%);
+      --rel-card-bg: rgba(245, 242, 235, 0.98);
+      --rel-font: 'Georgia', serif;
+      --card-border-radius: 12px;
+      --paper-border: 1px solid #8c6d46;
+      color: #2b2b2b;
+    }
+    body.theme-pleng-30 .info-layout { background: rgba(248, 245, 240, 0.95); border: 1px solid #b09a82; color: #212121; }
+    body.theme-pleng-30 .side-tabs { background: #d6ccc2; }
+    body.theme-pleng-30 .side-tab-btn { color: #4a3e3d; }
+    body.theme-pleng-30 .side-tab-btn.active { background: #e3d5ca; color: #1a1a1a; }
+
+    /* Wan (17 años) - Gris perla / adolescente, cuaderno & cómics (NO clínica) */
+    body.theme-wan-17 {
+      --bg-main: #eef1f3;
+      --accent-color: #7a9eb0;
+      --rel-bg: radial-gradient(circle at center, #f5f7f8 0%, #dfe5e9 100%);
+      --rel-card-bg: rgba(255, 255, 255, 0.96);
+      --rel-font: 'Comic Sans MS', 'Segoe Print', cursive, sans-serif;
+      --card-border-radius: 10px;
+      --paper-border: 1px solid #b8c8d0;
+      color: #2c3a42;
+
+      /* Fondo: página de historieta (B/N, medio tono) */
+      background-color: #e8e8e8;
+      background-image:
+        linear-gradient(rgba(238, 241, 243, 0.72), rgba(238, 241, 243, 0.72)),
+        url("https://thumbs.dreamstime.com/b/fondo-de-la-p%C3%A1gina-del-libro-historietas-con-efectos-radiales-y-medio-tono-ilustraci%C3%B3n-vectorial-en-blanco-negro-vector-eps-329704574.jpg");
+      background-size: cover, cover;
+      background-position: center center, center center;
+      background-repeat: no-repeat, no-repeat;
+      background-attachment: fixed, fixed;
+    }
+
+    body.theme-wan-17 .cork-board {
+      border: 18px solid #4a2c11;
+      border-image: linear-gradient(to bottom, #633a18, #4a2c11, #2d1806) 30;
+      background-color: #9c683b;
+      background-image:
+        radial-gradient(#805128 15%, transparent 16%),
+        radial-gradient(#b88252 15%, transparent 16%),
+        radial-gradient(rgba(0, 0, 0, 0.1) 15%, transparent 20%);
+      background-size: 18px 18px, 26px 26px, 10px 10px;
+      background-position: 0 0, 9px 9px, 5px 5px;
+      box-shadow: inset 0 0 50px rgba(0,0,0,0.55), 0 18px 40px rgba(74, 44, 17, 0.35);
+    }
+
+    body.theme-wan-17 .info-layout {
+      background: #f6f8f9;
+      border: 2px solid #b8c8d0;
+      box-shadow: 0 12px 28px rgba(70, 85, 95, 0.12);
+      color: #2c3a42;
+      position: relative;
+      border-radius: 8px;
+    }
+
+    body.theme-wan-17 .side-tabs {
+      background: #e2e8ec;
+      border-left: 2px solid #b8c8d0;
+    }
+
+    body.theme-wan-17 .side-tab-btn {
+      color: #4a5c68;
+      font-family: 'Comic Sans MS', 'Segoe Print', cursive, sans-serif;
+      font-weight: 600;
+    }
+
+    body.theme-wan-17 .side-tab-btn.active {
+      background: #d0dae0;
+      color: #1e2c34;
+      border-left-color: #7a9eb0;
+    }
+
+    /* Cuaderno de apuntes adolescente (NO informe médico) */
+    body.theme-wan-17 .notebook-paper {
+      background-color: #fffcf7;
+      background-image: linear-gradient(#d8e0e6 1px, transparent 1px);
+      background-size: 100% 30px;
+      border-left: 4px solid #7a9eb0;
+      border-radius: 4px 10px 10px 4px;
+      box-shadow:
+        3px 5px 0 rgba(180, 195, 205, 0.4),
+        0 10px 22px rgba(70, 85, 95, 0.12);
+      font-family: 'Comic Sans MS', 'Segoe Print', cursive, sans-serif;
+      position: relative;
+      padding: 32px 40px 36px 52px;
+    }
+
+    body.theme-wan-17 .notebook-paper h2 {
+      font-family: 'Comic Sans MS', 'Segoe Print', cursive, sans-serif;
+      font-style: italic;
+      color: #3a4e5a;
+      border-bottom: 2px dashed #b8c8d0;
+      font-size: 1.45rem;
+      margin-bottom: 20px;
+    }
+
+    body.theme-wan-17 .notebook-paper p {
+      font-family: 'Comic Sans MS', 'Segoe Print', cursive, sans-serif;
+      color: #2c3a42;
+      line-height: 30px;
+      font-size: 1.05rem;
+    }
+
+    body.theme-wan-17 .info-list li {
+      background: #eef2f5;
+      color: #2c3a42;
+      border-left-color: #7a9eb0;
+    }
+
+    body.theme-wan-17 .comment-item {
+      background: #eef2f5;
+      border: 1px solid #b8c8d0;
+    }
+
+    body.theme-wan-17 .comment-form {
+      background: #e4eaee;
+    }
+
+    body.theme-wan-17 .comment-input,
+    body.theme-wan-17 .comment-textarea {
+      background: #fffcf7;
+      border: 1px solid #b8c8d0;
+      color: #2c3a42;
+    }
+
+    body.theme-wan-17 .comment-btn {
+      background: #7a9eb0;
+    }
+
+    body.theme-wan-17 .recuerdos-header {
+      background: rgba(90, 115, 130, 0.88);
+      border: 1px solid #8aa0ae;
+    }
+
+    body.theme-wan-17 .paper-sheet {
+      background: #fffcf7;
+      border: 1px solid #c5d0d8;
+    }
+
+    body.theme-wan-17 .paper-sheet.grid-paper {
+      background-color: #f5f8fa;
+      background-image: linear-gradient(#d8e0e6 1px, transparent 1px), linear-gradient(90deg, #d8e0e6 1px, transparent 1px);
+      background-size: 14px 14px;
+    }
+
+    body.theme-wan-17 .sheet-title {
+      color: #2c3a42;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+    }
+
+    /* Decoraciones Wan 17 - lápices y nota (adolescente, no clínica) */
+    .wan17-pencils {
+      display: none;
+      position: absolute;
+      top: 12px;
+      right: 18px;
+      width: 70px;
+      height: 55px;
+      z-index: 5;
+      pointer-events: none;
+    }
+    .wan17-pencils::before,
+    .wan17-pencils::after {
+      content: '';
+      position: absolute;
+      width: 8px;
+      height: 48px;
+      border-radius: 2px 2px 4px 4px;
+      transform-origin: bottom center;
+    }
+    .wan17-pencils::before {
+      background: linear-gradient(to bottom, #8aa0ae 0%, #8aa0ae 78%, #c5d0d8 78%, #c5d0d8 88%, #333 88%);
+      left: 12px;
+      transform: rotate(-18deg);
+      opacity: 0.7;
+    }
+    .wan17-pencils::after {
+      background: linear-gradient(to bottom, #7a9eb0 0%, #7a9eb0 78%, #c5d0d8 78%, #c5d0d8 88%, #333 88%);
+      left: 28px;
+      transform: rotate(12deg);
+      opacity: 0.7;
+    }
+    .wan17-eraser {
+      display: none;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 22px;
+      height: 16px;
+      background: #9aa5ae;
+      border-radius: 2px;
+      box-shadow: 1px 1px 3px rgba(0,0,0,0.15);
+      z-index: 6;
+      pointer-events: none;
+      opacity: 0.65;
+    }
+    .wan17-eraser::after {
+      content: '';
+      display: none;
+    }
+    .wan17-thought-bubble {
+      display: none;
+      position: absolute;
+      bottom: 16px;
+      right: 24px;
+      max-width: 155px;
+      background: #fffcf7;
+      border: 1.5px solid #b8c8d0;
+      border-radius: 12px;
+      padding: 9px 13px;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      font-size: 0.75rem;
+      color: #4a5c68;
+      font-style: italic;
+      box-shadow: 2px 3px 0 rgba(150, 170, 180, 0.25);
+      z-index: 5;
+      line-height: 1.35;
+      transform: rotate(-2deg);
+    }
+    .wan17-thought-bubble::before {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 20px;
+      width: 12px;
+      height: 12px;
+      background: #fffcf7;
+      border-right: 1.5px solid #b8c8d0;
+      border-bottom: 1.5px solid #b8c8d0;
+      transform: rotate(45deg);
+    }
+    body.theme-wan-17 .wan17-pencils,
+    body.theme-wan-17 .wan17-eraser,
+    body.theme-wan-17 .wan17-thought-bubble {
+      display: block;
+    }
+
+    body.theme-wan-17 .side-tab-btn .tab-icon {
+      display: inline-block;
+      margin-right: 6px;
+      font-size: 0.95rem;
+      opacity: 0.85;
+    }
+
+    /* Wan (30 años) - Gris claro, vínculo sutil con Pleng, diario = informe médico */
+    body.theme-wan-30 {
+      --bg-main: #eceef0;
+      --accent-color: #8b4a52;
+      --rel-bg: radial-gradient(circle at center, #f5f6f7 0%, #dfe2e5 100%);
+      --rel-card-bg: rgba(255, 255, 255, 0.97);
+      --rel-font: 'Segoe UI', Georgia, sans-serif;
+      --card-border-radius: 8px;
+      --paper-border: 1px solid #c5cdd3;
+      color: #2c3238;
+
+      /* Fondo gris claro + siluetas adultas muy tenues (amor con Pleng, no infantil) */
+      background-color: #eceef0;
+      background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='360' height='360' viewBox='0 0 360 360'%3E%3Cg fill='none' stroke='%239aa3ab' stroke-width='1.15' stroke-opacity='0.09'%3E%3Cpath d='M110 250c0-42 32-76 60-76s60 34 60 76'/%3E%3Ccircle cx='140' cy='138' r='30'/%3E%3Ccircle cx='200' cy='138' r='30'/%3E%3Cpath d='M155 175c10 14 22 22 35 22s25-8 35-22' stroke-opacity='0.07'/%3E%3C/g%3E%3Cpath d='M130 200 Q170 185 210 200' fill='none' stroke='%23a89090' stroke-width='0.8' stroke-opacity='0.08'/%3E%3C/svg%3E"),
+        linear-gradient(to bottom, rgba(140, 150, 160, 0.04) 1px, transparent 1px),
+        radial-gradient(ellipse at 25% 15%, rgba(255,255,255,0.5) 0%, transparent 50%),
+        radial-gradient(ellipse at 75% 85%, rgba(170, 175, 185, 0.1) 0%, transparent 45%);
+      background-size: 360px 360px, 100% 36px, 100% 100%, 100% 100%;
+      background-position: 50% 40%, 0 0, 0 0, 0 0;
+      background-repeat: repeat, repeat, no-repeat, no-repeat;
+    }
+
+    body.theme-wan-30 .cork-board {
+      border: 18px solid #4a2c11;
+      border-image: linear-gradient(to bottom, #633a18, #4a2c11, #2d1806) 30;
+      background-color: #9c683b;
+      background-image:
+        radial-gradient(#805128 15%, transparent 16%),
+        radial-gradient(#b88252 15%, transparent 16%),
+        radial-gradient(rgba(0, 0, 0, 0.1) 15%, transparent 20%);
+      background-size: 18px 18px, 26px 26px, 10px 10px;
+      background-position: 0 0, 9px 9px, 5px 5px;
+      box-shadow: inset 0 0 50px rgba(0,0,0,0.55), 0 18px 40px rgba(74, 44, 17, 0.35);
+    }
+
+    body.theme-wan-30 .info-layout {
+      background: #f4f5f6;
+      border: 1px solid #c5cdd3;
+      box-shadow: 0 10px 28px rgba(50, 60, 70, 0.1);
+      color: #2c3238;
+      border-radius: 6px;
+    }
+
+    body.theme-wan-30 .side-tabs {
+      background: #e4e7ea;
+      border-left: 1px solid #c5cdd3;
+    }
+
+    body.theme-wan-30 .side-tab-btn {
+      color: #4a5560;
+      font-family: 'Segoe UI', sans-serif;
+      font-weight: 600;
+    }
+
+    body.theme-wan-30 .side-tab-btn.active {
+      background: #d8dde2;
+      color: #1e262c;
+      border-left-color: #8b4a52;
+    }
+
+    /* Diario = informe médico / historia clínica (solo apariencia) */
+    body.theme-wan-30 .notebook-paper {
+      background-color: #ffffff;
+      background-image: none;
+      border: 1px solid #b8c0c8;
+      border-left: 5px solid #8b4a52;
+      border-radius: 2px;
+      box-shadow:
+        0 1px 3px rgba(0,0,0,0.06),
+        0 8px 22px rgba(50, 60, 70, 0.1);
+      font-family: 'Georgia', 'Times New Roman', serif;
+      position: relative;
+      padding: 40px 44px 42px 50px;
+      color: #1e2428;
+    }
+    body.theme-wan-30 .notebook-paper::before {
+      content: 'HISTORIA CLÍNICA  ·  CONFIDENCIAL';
+      position: absolute;
+      top: 12px;
+      right: 20px;
+      font-size: 0.62rem;
+      letter-spacing: 1.6px;
+      color: #8a939c;
+      font-family: 'Segoe UI', sans-serif;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    body.theme-wan-30 .notebook-paper::after {
+      content: '';
+      position: absolute;
+      top: 30px;
+      left: 50px;
+      right: 44px;
+      height: 1px;
+      background: linear-gradient(to right, #8b4a52 0%, #c5cdd3 55%, transparent 100%);
+    }
+
+    body.theme-wan-30 .notebook-paper h2 {
+      font-family: 'Georgia', 'Times New Roman', serif;
+      font-style: normal;
+      font-weight: 700;
+      color: #1a1e22;
+      border-bottom: 1px solid #d0d5da;
+      font-size: 1.32rem;
+      letter-spacing: 0.2px;
+      padding-bottom: 10px;
+      margin-top: 14px;
+      margin-bottom: 20px;
+    }
+
+    body.theme-wan-30 .notebook-paper p {
+      font-family: 'Georgia', 'Times New Roman', serif;
+      color: #2c3238;
+      line-height: 1.75;
+      font-size: 1.02rem;
+      white-space: pre-line;
+    }
+
+    body.theme-wan-30 .info-list li {
+      background: #eef0f2;
+      color: #2c3238;
+      border-left-color: #8b4a52;
+    }
+
+    body.theme-wan-30 .comment-item {
+      background: #f0f2f4;
+      border: 1px solid #c5cdd3;
+      color: #2c3238;
+    }
+
+    body.theme-wan-30 .comment-form {
+      background: #e8ebef;
+    }
+
+    body.theme-wan-30 .comment-input,
+    body.theme-wan-30 .comment-textarea {
+      background: #ffffff;
+      border: 1px solid #c5cdd3;
+      color: #2c3238;
+    }
+
+    body.theme-wan-30 .comment-btn {
+      background: #8b4a52;
+    }
+
+    body.theme-wan-30 .recuerdos-header {
+      background: rgba(80, 90, 100, 0.9);
+      border: 1px solid #8a939c;
+    }
+
+    body.theme-wan-30 .paper-sheet {
+      background: #ffffff;
+      border: 1px solid #c5cdd3;
+    }
+
+    body.theme-wan-30 .paper-sheet.grid-paper {
+      background-color: #f7f8f9;
+      background-image: linear-gradient(#dfe3e6 1px, transparent 1px), linear-gradient(90deg, #dfe3e6 1px, transparent 1px);
+      background-size: 14px 14px;
+    }
+
+    body.theme-wan-30 .sheet-title {
+      color: #2c3238;
+      font-family: 'Georgia', serif;
+    }
+
+    body.theme-wan-30 .nav-btn.back-btn {
+      color: #8b4a52;
+      border-color: rgba(139, 74, 82, 0.4);
+      background: rgba(139, 74, 82, 0.1);
+    }
+
+
+
+    /* Animaciones de transición extra */
+    .dashboard-container {
+      animation: fadeIn 0.45s ease;
+    }
+    .cork-board {
+      animation: boardIn 0.55s cubic-bezier(0.34, 1.2, 0.64, 1);
+    }
+    @keyframes boardIn {
+      from { opacity: 0; transform: scale(0.96) translateY(16px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    .paper-sheet {
+      animation: pinIn 0.5s cubic-bezier(0.34, 1.4, 0.64, 1) both;
+    }
+    .paper-sheet:nth-child(1) { animation-delay: 0.05s; }
+    .paper-sheet:nth-child(2) { animation-delay: 0.1s; }
+    .paper-sheet:nth-child(3) { animation-delay: 0.15s; }
+    .paper-sheet:nth-child(4) { animation-delay: 0.2s; }
+    .paper-sheet:nth-child(5) { animation-delay: 0.25s; }
+    @keyframes pinIn {
+      from { opacity: 0; transform: scale(0.85) translateY(20px); }
+      to { opacity: 1; }
+    }
+    .info-layout {
+      animation: slideFade 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    @keyframes slideFade {
+      from { opacity: 0; transform: translateY(18px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .side-tab-btn {
+      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .side-tab-btn:hover {
+      transform: translateX(-3px);
+    }
+    .sub-panel {
+      transition: opacity 0.3s ease;
+    }
+    .sub-panel.active {
+      animation: fadeIn 0.35s ease;
+    }
+    .nav-pill {
+      animation: dropNav 0.5s cubic-bezier(0.34, 1.3, 0.64, 1);
+    }
+    @keyframes dropNav {
+      from { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+      to { opacity: 1; transform: translateX(-50%) translateY(0); }
+    }
+    .character-card {
+      transition: flex 0.55s cubic-bezier(0.4, 0, 0.2, 1), filter 0.45s ease;
+    }
+    .rel-node {
+      animation: nodePop 0.45s cubic-bezier(0.34, 1.4, 0.64, 1) both;
+      transition: transform 0.3s cubic-bezier(0.34, 1.4, 0.64, 1), opacity 0.3s ease;
+    }
+    .rel-node:nth-child(1) { animation-delay: 0.05s; }
+    .rel-node:nth-child(2) { animation-delay: 0.08s; }
+    .rel-node:nth-child(3) { animation-delay: 0.11s; }
+    .rel-node:nth-child(4) { animation-delay: 0.14s; }
+    .rel-node:nth-child(5) { animation-delay: 0.17s; }
+    .rel-node:nth-child(6) { animation-delay: 0.2s; }
+    .rel-node:nth-child(7) { animation-delay: 0.23s; }
+    .rel-node:nth-child(8) { animation-delay: 0.26s; }
+    .rel-node:nth-child(9) { animation-delay: 0.29s; }
+    .rel-node:nth-child(10) { animation-delay: 0.32s; }
+    @keyframes nodePop {
+      from { opacity: 0; transform: translate(-50%, -50%) scale(0.6); }
+      to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    }
+    .fullscreen-rel-map {
+      animation: fadeIn 0.4s ease;
+    }
+    .memory-modal-container {
+      animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .instant-paper-left {
+      transition: transform 0.35s ease;
+    }
+    .instant-paper-left:hover {
+      transform: rotate(0deg) scale(1.02);
+    }
+    .comment-item {
+      animation: fadeIn 0.35s ease;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .comment-item:hover {
+      transform: translateX(4px);
+    }
+    .currency-box {
+      animation: fadeIn 0.4s ease 0.1s both;
+    }
+    .notebook-paper {
+      animation: slideFade 0.4s ease;
+    }
+    .age-modal h2 {
+      animation: fadeIn 0.4s ease;
+    }
+    .btn-age {
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+
+    .series-link-box {
+      margin: 18px 0 8px 0;
+    }
+    .series-btn {
+      display: inline-block;
+      background: var(--accent-color);
+      color: #fff !important;
+      text-decoration: none;
+      font-weight: 700;
+      padding: 12px 26px;
+      border-radius: 30px;
+      font-size: 1rem;
+      letter-spacing: 0.3px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+      transition: transform 0.3s cubic-bezier(0.34, 1.4, 0.64, 1), box-shadow 0.3s ease, filter 0.3s ease;
+    }
+    .series-btn:hover {
+      transform: translateY(-3px) scale(1.03);
+      box-shadow: 0 10px 28px rgba(0,0,0,0.28);
+      filter: brightness(1.08);
+    }
+
+    /* Conversor CLP → THB (sección Libro) */
+    .currency-box {
+      margin-top: 28px;
+      padding: 22px 24px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: var(--card-border-radius);
+    }
+    body.theme-pleng-17 .currency-box,
+    body.theme-pleng-30 .currency-box {
+      background: #f5f0e6;
+      border: 1px solid #c5a059;
+      color: #2c221e;
+    }
+    body.theme-wan-17 .currency-box {
+      background: #eef2f5;
+      border: 1px solid #b8c8d0;
+      color: #2c3a42;
+    }
+    body.theme-wan-30 .currency-box {
+      background: #eef0f2;
+      border: 1px solid #c5cdd3;
+      color: #2c3238;
+    }
+    .currency-intro {
+      font-size: 1.02rem;
+      line-height: 1.55;
+      margin-bottom: 16px;
+      font-weight: 500;
+    }
+    .currency-row {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+    .currency-row label {
+      font-size: 0.88rem;
+      opacity: 0.85;
+    }
+    .currency-input {
+      padding: 12px 14px;
+      border-radius: 8px;
+      border: 1px solid rgba(128,128,128,0.35);
+      font-size: 1.05rem;
+      background: rgba(255,255,255,0.9);
+      color: #1a1a1a;
+      max-width: 280px;
+    }
+    .currency-btn {
+      background: var(--accent-color);
+      color: #fff;
+      border: none;
+      padding: 11px 22px;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 0.95rem;
+      transition: transform 0.25s ease, opacity 0.25s ease;
+    }
+    .currency-btn:hover { transform: translateY(-1px); opacity: 0.92; }
+    .currency-btn:disabled { opacity: 0.6; cursor: wait; }
+    .currency-result {
+      margin-top: 14px;
+      padding: 12px 14px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.08);
+      font-size: 1.05rem;
+      line-height: 1.5;
+      min-height: 1.5em;
+    }
+    .currency-note {
+      margin-top: 10px;
+      font-size: 0.78rem;
+      opacity: 0.65;
+    }
+
+
+    .site-title {
+      position: fixed;
+      top: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 250;
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.9);
+      text-shadow: 0 2px 12px rgba(0,0,0,0.45);
+      pointer-events: none;
+      transition: color 0.4s ease, opacity 0.4s ease;
+    }
+    body.theme-pleng-17 .site-title,
+    body.theme-pleng-30 .site-title {
+      color: rgba(60, 45, 30, 0.85);
+      text-shadow: 0 1px 4px rgba(255,255,255,0.4);
+    }
+    body.theme-wan-17 .site-title {
+      color: rgba(40, 50, 58, 0.88);
+      text-shadow: 0 1px 4px rgba(255,255,255,0.35);
+    }
+    body.theme-wan-30 .site-title {
+      color: rgba(45, 50, 55, 0.88);
+      text-shadow: 0 1px 4px rgba(255,255,255,0.35);
+    }
+    /* Cuando hay nav-pill, el título se mueve un poco a la izquierda para no chocar */
+    body.has-dashboard .site-title {
+      left: 24px;
+      transform: none;
+      letter-spacing: 3px;
+      font-size: 0.85rem;
+    }
+
+    /* Screen 1: Character Selector (COLOR INTACTO) */
+    .selector-container {
+      display: flex;
+      height: 100vh;
+      width: 100vw;
+    }
+    .character-card {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      transition: all 0.5s ease;
+      position: relative;
+    }
+    .pleng-card {
+      background: linear-gradient(145deg, #3d2b1f 0%, #1a120c 55%, #2a1c14 100%);
+    }
+    .wan-card {
+      background: linear-gradient(145deg, #2a3a42 0%, #121a1e 55%, #1e2c32 100%);
+    }
+    
+    .character-card {
+      transition: flex 0.55s cubic-bezier(0.4, 0, 0.2, 1), filter 0.45s ease, transform 0.45s ease;
+    }
+    .character-card:hover { flex: 1.5; filter: brightness(1.08); }
+    .character-card h1 {
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+      letter-spacing: 3px;
+      transition: letter-spacing 0.4s ease, transform 0.4s ease;
+    }
+    .character-card:hover h1 { letter-spacing: 6px; transform: scale(1.02); }
+    .character-card p { opacity: 0.85; font-size: 1.2rem; transition: opacity 0.35s ease; }
+    .character-card:hover p { opacity: 1; }
+
+    /* Screen 2: Age Selector */
+    .age-modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.92);
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      z-index: 100;
+      animation: fadeIn 0.35s ease;
+    }
+    .age-buttons { display: flex; gap: 2rem; margin-top: 2rem; }
+    .btn-age {
+      padding: 1rem 2.5rem;
+      font-size: 1.2rem;
+      border: 2px solid #fff;
+      background: transparent;
+      color: #fff;
+      cursor: pointer;
+      border-radius: 30px;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .btn-age:hover {
+      background: #fff;
+      color: #000;
+      transform: translateY(-3px) scale(1.03);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.35);
+    }
+
+    /* Screen 3: Dashboard Layout */
+    .dashboard-container {
+      display: none;
+      min-height: 100vh;
+      width: 100vw;
+      flex-direction: column;
+      align-items: center;
+      padding: 85px 25px 40px 25px;
+      position: relative;
+    }
+
+    /* Navegación flotante */
+    .nav-pill {
+      position: fixed;
+      top: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 252, 247, 0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(90, 80, 70, 0.18);
+      border-radius: 40px;
+      padding: 6px 12px;
+      display: flex;
+      gap: 10px;
+      z-index: 200;
+      box-shadow: 0 8px 28px rgba(40, 35, 30, 0.12);
+      transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    .nav-btn {
+      background: transparent;
+      border: none;
+      color: #4a453f;
+      padding: 9px 22px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .nav-btn.active, .nav-btn:hover {
+      background: rgba(90, 80, 70, 0.12);
+      color: #2a2520;
+      text-shadow: none;
+      transform: translateY(-1px);
+    }
+
+    .nav-btn.back-btn {
+      background: rgba(90, 80, 70, 0.08);
+      border: 1px solid rgba(90, 80, 70, 0.22);
+      color: var(--accent-color);
+    }
+    .nav-btn.back-btn:hover {
+      background: rgba(90, 80, 70, 0.14);
+    }
+
+    .tab-content {
+      display: none;
+      width: 100%;
+      max-width: 1250px;
+    }
+    .tab-content.active {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Tablero de Corcho */
+    .cork-board {
+      width: 100%;
+      min-height: 700px;
+      background-color: #9c683b;
+      background-image: 
+        radial-gradient(#805128 15%, transparent 16%),
+        radial-gradient(#b88252 15%, transparent 16%),
+        radial-gradient(rgba(0, 0, 0, 0.1) 15%, transparent 20%);
+      background-size: 18px 18px, 26px 26px, 10px 10px;
+      background-position: 0 0, 9px 9px, 5px 5px;
+      border: 24px solid #633f20;
+      border-image: linear-gradient(to bottom, #82542c, #523318, #3b220d) 30;
+      box-shadow: inset 0 0 60px rgba(0,0,0,0.7), 0 25px 60px rgba(0,0,0,0.85);
+      position: relative;
+      border-radius: var(--card-border-radius);
+      padding: 30px 20px;
+      overflow: hidden;
+    }
+
+    .strings-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .recuerdos-header {
+      background: rgba(20, 10, 15, 0.88);
+      border: 1px solid var(--accent-color);
+      border-radius: 6px;
+      padding: 12px 55px;
+      text-align: center;
+      margin: 0 auto 40px auto;
+      width: fit-content;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+      position: relative;
+      z-index: 2;
+    }
+
+    .recuerdos-header h2 {
+      color: #fff;
+      letter-spacing: 8px;
+      font-size: 2.2rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+    }
+
+    .board-items {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 35px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .paper-sheet {
+      width: 210px;
+      background: #fcfbf7;
+      padding: 14px 14px 18px 14px;
+      box-shadow: 4px 12px 24px rgba(0,0,0,0.45);
+      position: relative;
+      transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease;
+      cursor: pointer;
+      border-radius: var(--card-border-radius);
+      border: var(--paper-border);
+    }
+
+    .paper-sheet:hover {
+      transform: scale(1.08) rotate(0deg) !important;
+      z-index: 10 !important;
+      box-shadow: 6px 20px 35px rgba(0,0,0,0.65);
+    }
+
+    .paper-sheet.grid-paper {
+      background-color: #f7f5ed;
+      background-image: linear-gradient(#e3e0d3 1px, transparent 1px), linear-gradient(90deg, #e3e0d3 1px, transparent 1px);
+      background-size: 14px 14px;
+    }
+
+    .rose-pin {
+      width: 16px;
+      height: 16px;
+      background: radial-gradient(circle at 35% 35%, #ffb6c1, #e63946 55%, #90be6d 85%, #274c77);
+      border-radius: 50%;
+      position: absolute;
+      top: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      box-shadow: 2px 5px 8px rgba(0,0,0,0.6);
+      z-index: 5;
+    }
+
+    .sheet-img-container {
+      width: 100%;
+      height: 155px;
+      background: #1a1a1a;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 4px;
+    }
+
+    .sheet-img-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+    }
+
+    .sheet-title {
+      color: #2b2b2b;
+      font-size: 0.92rem;
+      font-weight: 700;
+      text-align: center;
+      margin-top: 12px;
+      font-family: 'Georgia', serif;
+      word-wrap: break-word;
+    }
+
+    .rot-1 { transform: rotate(-5deg); }
+    .rot-2 { transform: rotate(4deg); }
+    .rot-3 { transform: rotate(-3deg); }
+    .rot-4 { transform: rotate(6deg); }
+    .rot-5 { transform: rotate(-4deg); }
+
+    /* Modal de Recuerdos */
+    .memory-modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.92);
+      backdrop-filter: blur(10px);
+      z-index: 500;
+      justify-content: center;
+      align-items: center;
+      padding: 40px;
+      animation: fadeIn 0.35s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .memory-modal-container {
+      animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .tab-content.active {
+      animation: fadeIn 0.35s ease;
+    }
+    .sub-panel.active {
+      animation: fadeIn 0.3s ease;
+    }
+
+    .memory-modal-container {
+      display: flex;
+      width: 100%;
+      max-width: 1050px;
+      align-items: center;
+      gap: 40px;
+      position: relative;
+    }
+
+    .memory-modal-close {
+      position: absolute;
+      top: -25px;
+      right: -10px;
+      background: rgba(255,255,255,0.2);
+      border: none;
+      color: #fff;
+      font-size: 1.8rem;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      cursor: pointer;
+      z-index: 10;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .memory-modal-close:hover { background: #e63946; }
+
+    .instant-paper-left {
+      width: 360px;
+      background: #fcfbf7;
+      padding: 22px 22px 28px 22px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+      position: relative;
+      border-radius: var(--card-border-radius);
+      border: var(--paper-border);
+      transform: rotate(-2deg);
+      flex-shrink: 0;
+    }
+
+    .instant-paper-left .sheet-img-container {
+      width: 100%;
+      height: 280px;
+    }
+
+    .instant-paper-left .sheet-title {
+      font-size: 1.3rem;
+      margin-top: 18px;
+    }
+
+    .memory-right-single-box {
+      flex: 1;
+      background: rgba(20, 25, 35, 0.95);
+      border: 1px solid var(--accent-color);
+      border-radius: var(--card-border-radius);
+      padding: 35px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.7);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .memory-right-single-box h3 {
+      font-size: 1.8rem;
+      color: var(--accent-color);
+      font-family: 'Georgia', serif;
+      border-bottom: 1px solid rgba(255,255,255,0.15);
+      padding-bottom: 10px;
+    }
+
+    .memory-text-content {
+      color: #e2e8f0;
+      font-size: 1.08rem;
+      line-height: 1.8;
+    }
+
+    .memory-text-content strong {
+      color: #fff;
+      display: block;
+      margin-top: 12px;
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+    }
+
+    /* Layout de Información */
+    .info-layout {
+      display: flex;
+      width: 100%;
+      max-width: 1250px;
+      background: rgba(18, 22, 30, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: var(--card-border-radius);
+      overflow: hidden;
+      box-shadow: 0 20px 45px rgba(0,0,0,0.7);
+      min-height: 650px;
+    }
+
+    .info-body {
+      flex: 1;
+      padding: 40px;
+      overflow-y: auto;
+      max-height: 750px;
+      position: relative;
+    }
+
+    /* Elementos Estéticos para Pleng 17 */
+    .pleng17-guitar-pick {
+      display: none;
+      position: absolute;
+      top: 15px;
+      right: 25px;
+      width: 36px;
+      height: 40px;
+      background: radial-gradient(circle at 30% 30%, #d4af37, #8c6d46);
+      clip-path: polygon(50% 100%, 0% 15%, 15% 0%, 85% 0%, 100% 15%);
+      box-shadow: 2px 4px 10px rgba(0,0,0,0.3);
+      transform: rotate(15deg);
+    }
+
+    .pleng17-tape {
+      display: none;
+      position: absolute;
+      top: -10px;
+      left: 30px;
+      width: 100px;
+      height: 25px;
+      background: rgba(230, 220, 195, 0.7);
+      border: 1px dashed rgba(168, 131, 68, 0.5);
+      transform: rotate(-3deg);
+    }
+
+    .pleng17-strikethrough-note {
+      display: none;
+      margin-top: 20px;
+      padding: 10px 15px;
+      background: #eae2d3;
+      border-left: 3px solid #a88344;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.9rem;
+      color: #554234;
+      font-style: italic;
+    }
+
+    body.theme-pleng-17 .pleng17-guitar-pick,
+    body.theme-pleng-17 .pleng17-tape,
+    body.theme-pleng-17 .pleng17-strikethrough-note {
+      display: block;
+    }
+
+    /* Hoja de Cuaderno para Resumen */
+    .notebook-paper {
+      background-color: #fdfbf7;
+      background-image: linear-gradient(#e1dcd0 1px, transparent 1px);
+      background-size: 100% 32px;
+      color: #2b2b2b;
+      padding: 35px 45px 35px 60px;
+      border-left: 3px solid #ff8585;
+      border-radius: var(--card-border-radius);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      position: relative;
+    }
+
+    .notebook-paper h2 {
+      font-family: 'Georgia', serif;
+      color: #1a1a1a;
+      font-size: 2rem;
+      margin-bottom: 25px;
+      line-height: 32px;
+      border-bottom: 2px solid #2b2b2b;
+    }
+
+    body.theme-pleng-17 .notebook-paper h2 {
+      font-family: 'Georgia', serif;
+      font-style: italic;
+      color: #3b2816;
+      border-bottom-color: #a88344;
+    }
+
+    .notebook-paper p {
+      font-family: 'Georgia', serif;
+      font-size: 1.12rem;
+      line-height: 32px;
+      color: #1a202c;
+      white-space: pre-line;
+    }
+
+    body.theme-pleng-17 .notebook-paper p {
+      font-family: 'Courier New', Courier, monospace;
+      color: #2c221e;
+    }
+
+    .side-tabs {
+      width: 260px;
+      background: rgba(11, 15, 22, 0.98);
+      border-left: 1px solid rgba(255, 255, 255, 0.12);
+      display: flex;
+      flex-direction: column;
+      padding: 25px 0;
+    }
+
+    .side-tab-btn {
+      background: transparent;
+      border: none;
+      color: #94a3b8;
+      padding: 18px 24px;
+      text-align: left;
+      font-size: 1.05rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      border-left: 4px solid transparent;
+    }
+
+    .side-tab-btn:hover {
+      background: rgba(255, 255, 255, 0.06);
+      color: #fff;
+    }
+
+    .side-tab-btn.active {
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--accent-color);
+      border-left-color: var(--accent-color);
+    }
+
+    .sub-panel { display: none; }
+    .sub-panel.active { display: block; }
+
+    /* Mapa de Relaciones Pantalla Completa */
+    .fullscreen-rel-map {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: var(--rel-bg);
+      z-index: 300;
+      display: flex;
+      flex-direction: column;
+      font-family: var(--rel-font);
+      transition: all 0.5s ease;
+    }
+
+    .rel-map-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(10px);
+      border-bottom: 2px solid var(--accent-color);
+      z-index: 10;
+    }
+
+    .rel-title-tag {
+      font-size: 1.6rem;
+      font-weight: bold;
+      color: var(--accent-color);
+      letter-spacing: 2px;
+    }
+
+    .rel-search {
+      padding: 10px 20px;
+      border-radius: 25px;
+      border: 1px solid var(--accent-color);
+      background: rgba(255,255,255,0.1);
+      color: #fff;
+      font-size: 0.95rem;
+      width: 260px;
+      outline: none;
+    }
+
+    .rel-legend {
+      display: flex;
+      gap: 20px;
+      font-size: 0.9rem;
+    }
+
+    .legend-item { display: flex; align-items: center; gap: 8px; }
+    .legend-dot { width: 12px; height: 12px; border-radius: 50%; }
+    .dot-red { background: #ff4d6d; }
+    .dot-blue { background: #4cc9f0; }
+    .dot-orange { background: #ff9f1c; }
+    .dot-green { background: #2ec4b6; }
+
+    .rel-canvas-area {
+      position: relative;
+      flex: 1;
+      width: 100%;
+      height: 100%;
+    }
+
+    .rel-svg-lines {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none;
+    }
+
+    .rel-node {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transform: translate(-50%, -50%);
+      cursor: pointer;
+      transition: transform 0.25s ease;
+      z-index: 5;
+    }
+
+    .rel-node:hover {
+      transform: translate(-50%, -50%) scale(1.15);
+      z-index: 10;
+    }
+
+    .rel-node-avatar {
+      width: 85px;
+      height: 85px;
+      border-radius: var(--card-border-radius);
+      border: 3.5px solid #ff4d6d;
+      background: #111;
+      overflow: hidden;
+      box-shadow: 0 0 20px rgba(0,0,0,0.8);
+      position: relative;
+    }
+
+    .rel-node-avatar img {
+      width: 100%; height: 100%; object-fit: cover; object-position: center 20%;
+    }
+
+    .rel-node.center .rel-node-avatar {
+      width: 110px; height: 110px; border-width: 5px;
+      box-shadow: 0 0 35px var(--accent-color);
+    }
+
+    .rel-node-tag {
+      background: var(--rel-card-bg);
+      border: 1.5px solid var(--accent-color);
+      padding: 6px 16px;
+      border-radius: 16px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin-top: 8px;
+      white-space: nowrap;
+      text-align: center;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    }
+
+    .rel-node-sub { font-size: 0.75rem; opacity: 0.8; display: block; font-weight: normal; }
+    .border-red { border-color: #ff4d6d; }
+    .border-blue { border-color: #4cc9f0; }
+    .border-orange { border-color: #ff9f1c; }
+    .border-green { border-color: #2ec4b6; }
+
+    .info-list { list-style: none; margin-top: 15px; }
+    .info-list li {
+      background: rgba(255,255,255,0.04);
+      border-left: 3px solid var(--accent-color);
+      padding: 14px 18px;
+      margin-bottom: 14px;
+      border-radius: 0 8px 8px 0;
+      line-height: 1.6;
+    }
+
+    body.theme-pleng-17 .info-list li {
+      background: #eae2d3;
+      color: #2c221e;
+    }
+
+    /* Comentarios */
+    .comments-box { display: flex; flex-direction: column; gap: 15px; margin-bottom: 25px; }
+    .comment-item {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--card-border-radius);
+      padding: 15px 20px;
+    }
+    body.theme-pleng-17 .comment-item {
+      background: #eae2d3;
+      border: 1px solid #c5a059;
+    }
+    .comment-author { font-weight: bold; color: var(--accent-color); font-size: 0.98rem; margin-bottom: 6px; }
+    .comment-text { color: inherit; font-size: 0.98rem; line-height: 1.5; }
+
+    .comment-form {
+      display: flex; flex-direction: column; gap: 14px; margin-top: 20px;
+      background: rgba(0,0,0,0.15); padding: 22px; border-radius: var(--card-border-radius);
+    }
+    body.theme-pleng-17 .comment-form {
+      background: #e4d9c6;
+    }
+    .comment-input, .comment-textarea {
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 6px; padding: 12px 16px; color: inherit; font-size: 1rem;
+    }
+    body.theme-pleng-17 .comment-input, body.theme-pleng-17 .comment-textarea {
+      background: #fdfbf7;
+      border: 1px solid #a88344;
+      color: #2c221e;
+    }
+    .comment-textarea { resize: vertical; min-height: 90px; }
+    .comment-btn {
+      align-self: flex-end; background: var(--accent-color); color: #fff;
+      border: none; padding: 10px 26px; font-weight: bold; border-radius: 6px; cursor: pointer;
+    }
+    body.theme-pleng-17 .comment-btn {
+      background: #a88344;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Paso 1: Selección de Personaje (PANTALLA PRINCIPAL INTACTA) -->
+  <div class="site-title" id="siteTitle">Web Affair</div>
+
+  <div class="selector-container" id="characterSelector">
+    <div class="character-card pleng-card" onclick="selectCharacter('Pleng')">
+      <h1>PLENG</h1>
+      <p>Orgullo, cambio y redención</p>
+    </div>
+    <div class="character-card wan-card" onclick="selectCharacter('Wan')">
+      <h1>WANWIWA</h1>
+      <p>Devoción, paciencia y verdad</p>
+    </div>
+  </div>
+
+  <!-- Paso 2: Selección de Edad -->
+  <div class="age-modal" id="ageModal">
+    <h2 id="modalTitle">Selecciona la época</h2>
+    <div class="age-buttons">
+      <button class="btn-age" onclick="loadDashboard(17)">17 Años (Adolescencia)</button>
+      <button class="btn-age" onclick="loadDashboard(30)">30 Años (Madurez)</button>
+    </div>
+  </div>
+
+  <!-- Paso 3: Dashboard Principal -->
+  <div class="dashboard-container" id="dashboard">
+    
+    <!-- Navegación Flotante -->
+    <div class="nav-pill">
+      <button class="nav-btn back-btn" onclick="resetSelection()" title="Cambiar de personaje o edad">
+        &#8592; Cambiar
+      </button>
+      <button class="nav-btn active" id="btn-nav-recuerdos" onclick="switchTab('recuerdos')">Recuerdos</button>
+      <button class="nav-btn" id="btn-nav-info" onclick="switchTab('info')">Más Información</button>
+    </div>
+
+    <!-- Pestaña 1: Tablero de Corcho -->
+    <div class="tab-content active" id="tab-recuerdos">
+      <div class="cork-board" id="corkBoard">
+        <canvas class="strings-canvas" id="stringsCanvas"></canvas>
+        <div class="recuerdos-header">
+          <h2>RECUERDOS</h2>
+        </div>
+        <div class="board-items" id="boardItems"></div>
+      </div>
+    </div>
+
+    <!-- Pestaña 2: Más Información -->
+    <div class="tab-content" id="tab-info">
+      <div class="info-layout">
+        
+        <div class="info-body">
+          <div class="pleng17-guitar-pick"></div>
+          <div class="pleng17-tape"></div>
+          <div class="wan17-pencils"></div>
+          <div class="wan17-eraser"></div>
+          <div class="wan17-thought-bubble">Quiero ser doctora...</div>
+          
+          <!-- Panel 1: Resumen estilo Hoja de Cuaderno -->
+          <div class="sub-panel active" id="sub-resumen">
+            <div class="notebook-paper">
+              <h2 id="resumenTitle">Resumen</h2>
+              <p id="resumenFullText"></p>
+            </div>
+            <div class="pleng17-strikethrough-note">
+              <s>* Nota al margen: No me afectó perder en aquel examen, simplemente no dormí bien.</s> ¡Iba a ser la #1 de todas formas!
+            </div>
+          </div>
+
+          <!-- Panel 2: Comentarios -->
+          <div class="sub-panel" id="sub-comentarios">
+            <h2>Comentarios e Impresiones</h2>
+            <div class="comments-box" id="commentsList">
+              <div class="comment-item">
+                <div class="comment-author">LoverGL</div>
+                <div class="comment-text">Increíble cómo los hilos del destino las vuelven a conectar después de 13 años.</div>
+              </div>
+            </div>
+
+            <div class="comment-form">
+              <input type="text" class="comment-input" id="authorInput" placeholder="Tu nombre / Usuario">
+              <textarea class="comment-textarea" id="textInput" placeholder="Escribe tu reflexión sobre este resumen..."></textarea>
+              <button class="comment-btn" onclick="addComment()">Publicar Comentario</button>
+            </div>
+          </div>
+
+          <!-- Panel 3: El Libro -->
+          <div class="sub-panel" id="sub-libro">
+            <h2>El Libro / Serie</h2>
+            <p id="libroDesc">Datos del libro y diferencias con la serie (válido en cualquier edad o perspectiva).</p>
+
+            <ul class="info-list" id="libroList"></ul>
+
+            <div class="series-link-box">
+              <a class="series-btn" href="https://www.youtube.com/playlist?list=PLpRvR46QQnisS7XeWH50boW8z1P_JHafB" target="_blank" rel="noopener noreferrer">Mira la serie aquí</a>
+            </div>
+
+            <div class="currency-box" id="currencyBox">
+              <p class="currency-intro">¿Alguna vez te has preguntado cuánto cuesta esa cita o el outfit de Affair en pesos chilenos? ¡Descúbrelo aquí!</p>
+              <div class="currency-row">
+                <label for="clpInput">Monto en CLP (pesos chilenos)</label>
+                <input type="number" id="clpInput" class="currency-input" min="0" step="100" placeholder="Ej: 50000" value="50000">
+              </div>
+              <button type="button" class="currency-btn" onclick="convertClpToThb()">Convertir a baht tailandeses (THB)</button>
+              <div class="currency-result" id="currencyResult">Ingresa un monto y pulsa convertir.</div>
+              <p class="currency-note">Tipo de cambio aproximado vía API en tiempo real. Solo referencia.</p>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Menú Lateral -->
+        <div class="side-tabs">
+          <button class="side-tab-btn active" id="btn-subtab-1" onclick="switchSubTab('sub-resumen', this)">1 - Diario</button>
+          <button class="side-tab-btn" id="btn-subtab-rel" onclick="openFullscreenRelMap()">2 - Relaciones</button>
+          <button class="side-tab-btn" id="btn-subtab-com" onclick="switchSubTab('sub-comentarios', this)">3 - Comentarios</button>
+          <button class="side-tab-btn" id="btn-subtab-lib" onclick="switchSubTab('sub-libro', this)">4 - El Libro</button>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Modal de Recuerdos -->
+  <div class="memory-modal" id="memoryModal">
+    <div class="memory-modal-container">
+      <button class="memory-modal-close" onclick="closeMemoryModal()">&times;</button>
+      
+      <div class="instant-paper-left" id="modalInstantPaper">
+        <div class="rose-pin"></div>
+        <div class="sheet-img-container">
+          <img id="modalImg" src="" alt="Recuerdo">
+        </div>
+        <div class="sheet-title" id="modalTitleText">Título del Recuerdo</div>
+      </div>
+
+      <div class="memory-right-single-box">
+        <h3 id="modalBoxHeader">Detalles del Recuerdo</h3>
+        <div class="memory-text-content">
+          <strong>¿Qué pasó ese día?</strong>
+          <span id="modalWhatHappened">...</span>
+          
+          <strong style="margin-top: 20px;">¿Por qué es importante?</strong>
+          <span id="modalWhyImportant">...</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Mapa de Relaciones Pantalla Completa -->
+  <div class="fullscreen-rel-map" id="fullscreenRelMap" style="display: none;">
+    <div class="rel-map-controls">
+      <div class="rel-title-tag" id="fullscreenRelTitle">Red de Personajes</div>
+      <input type="text" class="rel-search" placeholder="Buscar personaje..." onkeyup="filterNodes(this.value)">
+      <div class="rel-legend">
+        <div class="legend-item"><div class="legend-dot dot-red"></div> Romance / Vínculo</div>
+        <div class="legend-item"><div class="legend-dot dot-blue"></div> Familia</div>
+        <div class="legend-item"><div class="legend-dot dot-orange"></div> Matrimonio / Conflicto</div>
+        <div class="legend-item"><div class="legend-dot dot-green"></div> Amigos / Trabajo</div>
+      </div>
+      <button class="nav-btn back-btn" onclick="closeFullscreenRelMap()" style="padding: 6px 18px;">
+        &#215; Cerrar Vista
+      </button>
+    </div>
+
+    <div class="rel-canvas-area" id="relCanvasArea">
+      <svg class="rel-svg-lines" id="relSvgLines"></svg>
+    </div>
+  </div>
+
+  <script>
+    let selectedCharacter = '';
+    let selectedAge = 17;
+
+    const imageAvatarRepo = {
+      17: {
+        Wan: "https://i.pinimg.com/736x/8b/bd/a4/8bbda448ef6f563c0b71c71e6a34b0f5.jpg",
+        Pleng: "https://pic9.iqiyipic.com/image/20240828/81/ad/v_177958709_m_601_zh-CN_480_270.jpg",
+        Ek: "https://static.wixstatic.com/media/640908_b117795dda2a4207aff20d64821e8e1a~mv2.jpg/v1/fill/w_640,h_706,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/640908_b117795dda2a4207aff20d64821e8e1a~mv2.jpg",
+        TiaWi: "https://static.wikia.nocookie.net/drama/images/0/04/Affair-10.jpg/revision/latest/scale-to-width-down/250?cb=20240830112051&path-prefix=es",
+        MamaPleng: "https://static.wikia.nocookie.net/drama/images/e/ec/Affair-9.jpg/revision/latest/scale-to-width-down/250?cb=20240830112051&path-prefix=es",
+        PapaPleng: "https://static.wikia.nocookie.net/drama/images/b/be/Affair-12.jpg/revision/latest/scale-to-width-down/250?cb=20240830112051&path-prefix=es",
+        Franco: "https://static.wikia.nocookie.net/drama/images/c/c4/Affair-11.jpg/revision/latest/scale-to-width-down/1000?cb=20240830112051&path-prefix=es",
+        PadreWan: "https://i.mydramalist.com/2w5K6P_5c.jpg",
+        Nueng: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1OE9S_qVrnaPJdMe7EwY03Q8BBeMnRGdjh7-1ABTEaoc8O9VPeZMWrw0&s=10",
+        Guy: "imagenes/guy.jpg"
+      },
+      30: {
+        Wan: "https://static1.personalitydatabase.net/2/pdb-images-prod/7b47ffbc/profile_images/a85f4828ec0540219053fd047f15d772.png",
+        Pleng: "https://static.tvtropes.org/pmwiki/pub/images/screenshot_2025_02_26_015619.png",
+        Ek: "https://static.wikia.nocookie.net/drama/images/3/35/Affair-7.jpg/revision/latest/scale-to-width-down/250?cb=20240830112050&path-prefix=es",
+        TiaWi: "https://static.wikia.nocookie.net/drama/images/0/04/Affair-10.jpg/revision/latest/scale-to-width-down/250?cb=20240830112051&path-prefix=es",
+        MamaPleng: "https://static.wikia.nocookie.net/drama/images/e/ec/Affair-9.jpg/revision/latest/scale-to-width-down/250?cb=20240830112051&path-prefix=es",
+        PapaPleng: "https://static.wikia.nocookie.net/drama/images/b/be/Affair-12.jpg/revision/latest/scale-to-width-down/250?cb=20240830112051&path-prefix=es",
+        PadreWan: "https://i.mydramalist.com/2w5K6P_5c.jpg",
+        Earth: "https://static.wikia.nocookie.net/drama/images/e/ed/Affair-8.jpg/revision/latest/scale-to-width-down/250?cb=20240830112051&path-prefix=es",
+        Nueng: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1OE9S_qVrnaPJdMe7EwY03Q8BBeMnRGdjh7-1ABTEaoc8O9VPeZMWrw0&s=10",
+        Guy: "imagenes/guy.jpg"
+      }    };
+
+    const personalNarratives = {
+      Pleng: {
+        17: `[ MI POSICIÓN - LA FACHADA ]
+Soy Pleng. A mis 17 años, admito que siempre estuve acostumbrada a tener el control absoluto y ser el centro de atención. Mantengo calificaciones impecables, un estatus familiar distinguido y una imagen pulcra. La música es mi verdadero refugio, donde mi orgullo puede expresarse libremente.
+
+[ EL ENTORNO Y WAN ]
+Wan es la hija de la sirvienta de mi casa, pero nunca dejé de verla como mi persona preferida... aunque mi orgullo jamás me permitiría admitir en voz alta lo dependiente que soy de ella. Mantengo una dinámica de control sobre su entorno, pero en el fondo, ella es mi mayor debilidad.
+
+[ PARTITURAS OCULTAS ]
+Cuando intenté unir a Wan con Ek pensaba que era lo correcto, pero verlos juntos despertaba celos insoportables. Luego mi mundo colapsó: mi padre falleció y mi familia lo perdió todo. Al mudarme a la humilde casa de Wan y descubrir que ella ocultaba su inteligencia para no eclipsarme, mi orgullo se quebró. Aquella madrugada de lluvia la miré dormir con ganas inmensas de besarla, pero preferí dejar una carta e irme antes que volverme una carga.`,
+        30: `Tengo 30 años y ya no queda nada de la niña malcriada y egoísta que fui. La vida se encargó de enseñarme humildad a la fuerza. Durante 13 años aprendí lo que es no tener nada, ganándome el pan con mi guitarra. Ahora busco que todos estén bien, evito los conflictos y trato a la gente con extrema suavidad.
+
+Cuando volví a ver a Wan, sentí que me faltaba el aire. Ella era una profesional brillante, segura y hermosa; yo solo era una cantante de hotel contratada por su prometido, Ek. Wan estaba molesta por mi regreso, pero yo solo quería demostrarle que ya podía cuidarme sola y no ser una carga.
+
+El camino no fue fácil. Enfrentamos rumores crueles y el secreto de la Tía Wi que casi nos destruye creyendo que éramos hermanas. Pero tras salvar a Wan del mar y aclarar las mentiras, lo entendí todo: ya no soy aquella chica cobarde que huye por orgullo. Ahora soy capaz de amar con humildad.`
+      },
+      Wan: {
+        17: `Soy Wanwiwa. A mis 17 años, mi mundo entero empezaba y terminaba en Pleng. Sé que muchos la veían como una chica consentida y orgullosa, pero para mí ella lo era todo. Mi madre trabajaba como sirvienta en su casa, pero cuando Pleng me miraba, me hacía sentir la persona más especial del universo.
+
+A los 17 me fascinaba leer cómics y distraerme, casi no hacía mis tareas escolares porque mis pensamientos estaban siempre en otra parte. Sin embargo, en el fondo tenía una meta firme: quería estudiar medicina y convertirme en doctora por Pleng, para cuidar de ella y protegerla en el futuro. 
+
+Yo era muy inteligente, pero prefería esconder mis logros o no prestarle atención a la escuela con tal de que Pleng brillara. Si hacerme pequeña hacía que ella sonriera, lo haría mil veces. Estaba profundamente enamorada de ella.
+
+Cuando la tragedia golpeó a su familia, quise ser su refugio. Pero Pleng descubrió que le ocultaba cosas y su orgullo herido la hizo sentir inferior. Aquella mañana de lluvia al despertar y encontrar la cama vacía con su carta de despedida fue el dolor más grande de mi vida. Se fue sin saber que para mí ella jamás sería una carga.`,
+        30: `Tengo 30 años. Me convertí en una mujer profesional, seria y enfocada. Hice lo que debía hacer: cumplí mi meta, me gradué, trabajé duro y acepté el compromiso con Ek porque parecía lo correcto, aunque mi corazón estuviera congelado desde los 17 años.
+
+El día que Pleng reapareció en el hotel, todo mi mundo perfecto se desmoronó. Volver a verla me dio rabia y desesperación, porque su sola presencia destruía la coraza que me tomó 13 años construir. Sabía que ella había cambiado, que ya no era la chica arrogante de antes, sino alguien más madura y suave.
+
+Luché contra mis sentimientos, contra las sospechas familiares y contra Ek. Pero cuando la vi arriesgar su vida por mí en el agua, supe que no puedo seguir mintiéndome. Ya no soy la niña que se queda llorando con una carta en la mano; hoy soy una mujer dispuesta a defender nuestro amor.`
+      }
+    };
+
+    const memoryData = {
+      Pleng: {
+        17: [
+          { title: "Hablando del Futuro", img: "imagenes/vale%20amigas.jpg", grid: false, what: "Compartimos un momento a solas conversando sobre lo que sería de nosotras al crecer.", why: "Fue la primera vez que Pleng sintió una punzada de nerviosismo y profunda cercanía." },
+          { title: "Conociendo a Ek", img: "imagenes/ek.jpg", grid: true, what: "Presentación formal de Ek e intento de Pleng por actuar como casamentera.", why: "Pleng experimenta celos inexplicables y se da cuenta de que no tolera ver a Wan con nadie más." },
+          { title: "La Pelea con Wan", img: "imagenes/pelea.jpg", grid: false, what: "Fuerte discusión donde chocan el orgullo de Pleng y las intenciones de Wan.", why: "Hizo evidente la enorme tensión emocional y los sentimientos no resueltos entre ambas." },
+          { title: "Fallecimiento de sus Padres", img: "imagenes/fallecimiento%20de%20mis%20padres.jpg", grid: false, what: "Muerte del padre de Pleng y la pérdida total del patrimonio y estatus familiar.", why: "El colapso de la vida de lujos de Pleng y el origen de su transformación obligada." },
+          { title: "Vida con Wan y Despedida", img: "imagenes/despedida.jpg", grid: true, what: "Pleng vive un tiempo en casa de Wan y huye a las 4:00 AM dejando una carta.", why: "Su acto definitivo de sacrificio por orgullo para no arruinar el futuro de Wan." }
+        ],
+        30: [
+          { title: "Separación", img: "imagenes/separacion%20pleng.jpg", grid: false, what: "Pleng y Wan viven años separadas; cada una construye una vida distinta mientras el vacío permanece.", why: "Marca el peso de la distancia y todo lo que el orgullo y el tiempo les arrebataron." },
+          { title: "Reencuentro", img: "imagenes/reencuentro.jpg", grid: true, what: "Pleng se cruza inesperadamente con Wan en el lobby del hotel, trece años después.", why: "Un solo segundo borra 13 años de distancia y demuestra que el vínculo seguía intacto." },
+          { title: "Vida juntos", img: "imagenes/vida%20juntos.jpg", grid: false, what: "Tras el reencuentro, empiezan a compartir de nuevo rutinas, silencios y complicidad.", why: "Recuperan el espacio que les pertenecía y aprenden a cuidarse sin huir." },
+          { title: "Ek se entera", img: "imagenes/ek%20se%20entera.jpg", grid: false, what: "Ek descubre la verdad sobre Pleng y Wan; la tensión y el conflicto estallan.", why: "El secreto deja de ser sostenible y obliga a todas las partes a enfrentar la realidad." },
+          { title: "Nos casamos", img: "imagenes/II.jpg", grid: true, what: "Pleng y Wan eligen quedarse y formalizar su historia juntas, libres de mentiras.", why: "El cierre del ciclo de dolor y el inicio de una vida compartida con decisión firme." }
+        ]
+      },
+      Wan: {
+        17: [
+          { title: "Hablando del Futuro", img: "imagenes/vale%20amigas.jpg", grid: false, what: "Compartimos un momento a solas conversando sobre lo que sería de nosotras al crecer. Pleng hablaba de su música y yo solo pensaba en ella.", why: "Fue la primera vez que sentí con claridad que mi futuro giraba en torno a Pleng." },
+          { title: "Conociendo a Ek", img: "imagenes/conociendo%20a%20ek.jpg", grid: true, what: "Pleng me presentó a Ek e intentó actuar como casamentera entre nosotros dos.", why: "Vi el nerviosismo de Pleng y, aunque no lo dijo, supe que no quería realmente alejarme de su lado." },
+          { title: "La Pelea con Pleng", img: "imagenes/pelea.jpg", grid: false, what: "Fuerte discusión donde chocaron el orgullo de Pleng y mis intenciones de protegerla.", why: "Hizo evidente la enorme tensión emocional y los sentimientos no resueltos entre nosotras." },
+          { title: "Fallecimiento de los Padres de Pleng", img: "imagenes/fallecimiento%20de%20los%20padres%20de%20Pleng.jpg", grid: false, what: "Muerte del padre de Pleng y la pérdida total del patrimonio y estatus familiar.", why: "El colapso de la vida de lujos de Pleng y el momento en que quise ser su único refugio." },
+          { title: "Vida con Pleng y Despedida", img: "imagenes/despedida.jpg", grid: true, what: "Pleng vivió un tiempo en mi casa y una madrugada huyó a las 4:00 AM dejando solo una carta.", why: "Su acto definitivo de sacrificio por orgullo; para mí, el día en que se llevó mi corazón." }
+        ],
+        30: [
+          { title: "Separación", img: "imagenes/separacion%20Wan.jpg", grid: false, what: "Los años de distancia: Wan construye una vida profesional y un compromiso mientras el recuerdo de Pleng no se apaga.", why: "Muestra el costo de la separación y un corazón que nunca avanzó del todo." },
+          { title: "Reencuentro", img: "imagenes/reencuentro.jpg", grid: true, what: "Pleng reaparece en el hotel; el mundo ordenado de Wan se tambalea en un instante.", why: "El reencuentro rompe la coraza de 13 años y devuelve lo que se creía perdido." },
+          { title: "Vida juntos", img: "imagenes/vida%20juntos.jpg", grid: false, what: "Wan y Pleng recuperan la cercanía: conversaciones, cuidados y la decisión de no volver a perderse.", why: "El amor deja de ser solo memoria y vuelve a ser presente compartido." },
+          { title: "Ek se entera", img: "imagenes/ek%20se%20entera.jpg", grid: false, what: "Ek descubre la verdad; Wan enfrenta el conflicto y el fin de una relación que ya no sostenía su corazón.", why: "La honestidad duele, pero libera el camino hacia lo que realmente siente." },
+          { title: "Nos casamos", img: "imagenes/II.jpg", grid: true, what: "Wan y Pleng eligen quedarse y vivir su historia abiertamente, sin cartas ni despedidas a escondidas.", why: "El cierre del ciclo y la promesa de no perder ni un día más." }
+        ]
+      }
+    };
+
+    function applyTheme() {
+      document.body.className = '';
+      
+      if (selectedCharacter === 'Pleng') {
+        document.body.classList.add(selectedAge === 17 ? 'theme-pleng-17' : 'theme-pleng-30');
+        document.body.classList.add('cursor-mic');
+      } else {
+        document.body.classList.add(selectedAge === 17 ? 'theme-wan-17' : 'theme-wan-30');
+        if (selectedAge === 17) {
+          document.body.classList.add('cursor-stethoscope');
+        }
+      }
+    }
+
+    function selectCharacter(char) {
+      selectedCharacter = char;
+      document.getElementById('modalTitle').innerText = `¿Qué etapa de ${char} deseas explorar?`;
+      document.getElementById('characterSelector').style.display = 'none';
+      document.getElementById('ageModal').style.display = 'flex';
+    }
+
+    function resetSelection() {
+      document.getElementById('dashboard').style.display = 'none';
+      document.getElementById('ageModal').style.display = 'none';
+      document.getElementById('fullscreenRelMap').style.display = 'none';
+      document.getElementById('characterSelector').style.display = 'flex';
+      document.body.className = '';
+      document.body.classList.remove('has-dashboard');
+    }
+
+    function loadDashboard(age) {
+      selectedAge = age;
+      applyTheme();
+      document.getElementById('ageModal').style.display = 'none';
+      document.getElementById('dashboard').style.display = 'flex';
+      document.body.classList.add('has-dashboard');
+
+      renderBoard();
+      renderInfo();
+    }
+
+    function switchTab(tabName) {
+      document.getElementById('btn-nav-recuerdos').classList.remove('active');
+      document.getElementById('btn-nav-info').classList.remove('active');
+
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+      if (tabName === 'recuerdos') {
+        document.getElementById('btn-nav-recuerdos').classList.add('active');
+        document.getElementById('tab-recuerdos').classList.add('active');
+        setTimeout(drawRedStrings, 50);
+      } else {
+        document.getElementById('btn-nav-info').classList.add('active');
+        document.getElementById('tab-info').classList.add('active');
+      }
+    }
+
+    function switchSubTab(subId, btnEl) {
+      document.querySelectorAll('.side-tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.sub-panel').forEach(p => p.classList.remove('active'));
+
+      btnEl.classList.add('active');
+      document.getElementById(subId).classList.add('active');
+    }
+
+    function resolveImageSrc(path, imgEl) {
+      const unquoted = decodeURIComponent(path);
+      const folder = unquoted.substring(0, unquoted.lastIndexOf('/') + 1);
+      let file = unquoted.substring(unquoted.lastIndexOf('/') + 1);
+      const dot = file.lastIndexOf('.');
+      const baseName = dot >= 0 ? file.substring(0, dot) : file;
+
+      // variantes de nombre + extensiones
+      const nameVariants = [baseName];
+      if (baseName === 'II' || baseName === 'll' || baseName === 'LL') {
+        nameVariants.push('II', 'll', 'LL', 'Ii');
+      }
+      if (baseName.toLowerCase() === 'guy') {
+        nameVariants.push('guy', 'Guy', 'GUY');
+      }
+      if (baseName.toLowerCase().includes('separacion')) {
+        nameVariants.push('separacion Wan', 'separacion wan', 'separacion Wan', 'separacion pleng', 'separacion Pleng');
+      }
+
+      const exts = ['.jpg', '.jpeg', '.png', '.webp', '.JPG', '.JPEG', '.PNG', '.WEBP', ''];
+      const candidates = [];
+      nameVariants.forEach(n => {
+        exts.forEach(e => {
+          candidates.push(folder + n + e);
+          candidates.push(folder + encodeURIComponent(n).replace(/%20/g, '%20') + e);
+        });
+      });
+      // also try original path as-is
+      candidates.unshift(path);
+      candidates.unshift(unquoted);
+
+      let i = 0;
+      function tryNext() {
+        if (i >= candidates.length) {
+          imgEl.alt = 'Imagen no encontrada: ' + baseName;
+          imgEl.style.objectFit = 'contain';
+          imgEl.src = "data:image/svg+xml," + encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' width='220' height='160'><rect fill='#2a2a2a' width='220' height='160'/><text x='110' y='70' fill='#ccc' text-anchor='middle' font-size='12'>No encontrada</text><text x='110' y='92' fill='#888' text-anchor='middle' font-size='10'>" + baseName.replace(/&/g,'') + "</text></svg>");
+          console.warn('Imagen no encontrada. Probado:', baseName, 'en', folder);
+          return;
+        }
+        const candidate = candidates[i++];
+        const test = new Image();
+        test.onload = function() { imgEl.src = candidate; console.log('OK imagen:', candidate); };
+        test.onerror = tryNext;
+        test.src = candidate;
+      }
+      tryNext();
+    }
+
+    function renderBoard() {
+      const boardItems = document.getElementById('boardItems');
+      boardItems.innerHTML = '';
+
+      const items = memoryData[selectedCharacter][selectedAge];
+      const rotations = ['rot-1', 'rot-2', 'rot-3', 'rot-4', 'rot-5'];
+
+      items.forEach((item, index) => {
+        const paper = document.createElement('div');
+        paper.className = `paper-sheet ${item.grid ? 'grid-paper' : ''} ${rotations[index % rotations.length]}`;
+        paper.id = `pin-target-${index}`;
+        paper.onclick = () => openMemoryModal(item);
+
+        paper.innerHTML = `
+          <div class="rose-pin"></div>
+          <div class="sheet-img-container">
+            <img alt="${item.title}" loading="lazy">
+          </div>
+          <div class="sheet-title">${item.title}</div>
+        `;
+        boardItems.appendChild(paper);
+        const imgEl = paper.querySelector('img');
+        resolveImageSrc(item.img.includes('%') ? item.img : encodeURI(item.img), imgEl);
+      });
+
+      setTimeout(drawRedStrings, 100);
+    }
+
+    function openMemoryModal(item) {
+      resolveImageSrc(item.img.includes('%') ? item.img : encodeURI(item.img), document.getElementById('modalImg'));
+      document.getElementById('modalTitleText').innerText = item.title;
+      document.getElementById('modalBoxHeader').innerText = item.title;
+      document.getElementById('modalWhatHappened').innerText = item.what;
+      document.getElementById('modalWhyImportant').innerText = item.why;
+
+      document.getElementById('memoryModal').style.display = 'flex';
+    }
+
+    function closeMemoryModal() {
+      document.getElementById('memoryModal').style.display = 'none';
+    }
+
+    function drawRedStrings() {
+      const board = document.getElementById('corkBoard');
+      const canvas = document.getElementById('stringsCanvas');
+      if (!board || !canvas) return;
+
+      canvas.width = board.clientWidth;
+      canvas.height = board.clientHeight;
+
+      const ctx = canvas.getContext('2d');
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      const pins = [];
+      for (let i = 0; i < 5; i++) {
+        const el = document.getElementById(`pin-target-${i}`);
+        if (el) {
+          const pinEl = el.querySelector('.rose-pin');
+          const rect = pinEl.getBoundingClientRect();
+          const boardRect = board.getBoundingClientRect();
+          pins.push({
+            x: rect.left - boardRect.left + rect.width / 2,
+            y: rect.top - boardRect.top + rect.height / 2
+          });
+        }
+      }
+
+      if (pins.length < 2) return;
+
+      ctx.beginPath();
+      ctx.strokeStyle = '#e63946';
+      ctx.lineWidth = 2.4;
+      ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
+      ctx.shadowBlur = 5;
+      ctx.shadowOffsetY = 3;
+
+      const order = [0, 2, 4, 1, 3, 0];
+      for (let i = 0; i < order.length - 1; i++) {
+        const start = pins[order[i]];
+        const end = pins[order[i+1]];
+        if (start && end) {
+          ctx.moveTo(start.x, start.y);
+          ctx.lineTo(end.x, end.y);
+        }
+      }
+      ctx.stroke();
+    }
+
+    function renderInfo() {
+      const isWan17 = selectedCharacter === 'Wan' && selectedAge === 17;
+      const isPleng17 = selectedCharacter === 'Pleng' && selectedAge === 17;
+
+      if (isWan17) {
+        document.getElementById('resumenTitle').innerText = 'Diario de Wan — Notas personales';
+      } else if (selectedCharacter === 'Wan' && selectedAge === 30) {
+        document.getElementById('resumenTitle').innerText = 'Historia Clínica — Wanwiwa (30 años)';
+      } else {
+        document.getElementById('resumenTitle').innerText = `Cuaderno de ${selectedCharacter} (${selectedAge} Años)`;
+      }
+      document.getElementById('resumenFullText').innerText = personalNarratives[selectedCharacter][selectedAge];
+
+      // Títulos e iconos del menú lateral
+      const btn1 = document.getElementById('btn-subtab-1');
+      const btnRel = document.getElementById('btn-subtab-rel');
+      const btnCom = document.getElementById('btn-subtab-com');
+      const btnLib = document.getElementById('btn-subtab-lib');
+
+      btn1.innerHTML = "1 - Diario";
+      btnRel.innerHTML = "2 - Relaciones";
+      btnCom.innerHTML = "3 - Comentarios";
+      btnLib.innerHTML = "4 - El Libro";
+
+      // Datos del libro / serie — iguales para cualquier personaje y edad
+      document.getElementById('libroList').innerHTML = `
+        <li><strong>Wan en Blank:</strong> Wan aparece en el libro de <em>Blank</em> y en la serie, pero en la serie se ve distinta. En esa historia <strong>no existe Pleng</strong>.</li>
+        <li><strong>Casa vs departamento:</strong> En el libro, Wan y Pleng se mudan a una casa; Wan deja la bicicleta y se compra un auto. En la serie siguen viviendo en el departamento.</li>
+        <li><strong>Matrimonio:</strong> En el libro <strong>no se casan</strong>; ese cierre no ocurre en la novela de la misma forma que en otras versiones.</li>
+      `;
+    }
+
+    async function convertClpToThb() {
+      const input = document.getElementById('clpInput');
+      const result = document.getElementById('currencyResult');
+      const btn = document.querySelector('.currency-btn');
+      const clp = parseFloat(input && input.value);
+      if (!clp || clp < 0) {
+        result.textContent = 'Ingresa un monto válido en pesos chilenos.';
+        return;
+      }
+      if (btn) btn.disabled = true;
+      result.textContent = 'Consultando tipo de cambio…';
+      try {
+        const res = await fetch('https://open.er-api.com/v6/latest/CLP');
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const data = await res.json();
+        const rate = data && data.rates && data.rates.THB;
+        if (!rate) throw new Error('Sin tasa THB');
+        const thb = clp * rate;
+        const fmtClp = clp.toLocaleString('es-CL', { style: 'currency', currency: 'CLP', maximumFractionDigits: 0 });
+        const fmtThb = thb.toLocaleString('th-TH', { style: 'currency', currency: 'THB', maximumFractionDigits: 2 });
+        result.innerHTML = '<strong>' + fmtClp + '</strong> ≈ <strong>' + fmtThb + '</strong><br><span style="font-size:0.9em;opacity:0.8">1 CLP ≈ ' + rate.toFixed(6) + ' THB' + (data.time_last_update_utc ? ' · ' + data.time_last_update_utc : '') + '</span>';
+      } catch (e) {
+        console.error(e);
+        result.textContent = 'No se pudo obtener el tipo de cambio. Revisa tu conexión e inténtalo de nuevo.';
+      } finally {
+        if (btn) btn.disabled = false;
+      }
+    }
+
+
+    function openFullscreenRelMap() {
+      document.getElementById('fullscreenRelTitle').innerText = `Mapa de Relaciones: ${selectedCharacter} (${selectedAge} Años)`;
+      document.getElementById('fullscreenRelMap').style.display = 'flex';
+      renderRelationshipMap();
+    }
+
+    function closeFullscreenRelMap() {
+      document.getElementById('fullscreenRelMap').style.display = 'none';
+    }
+
+    function renderRelationshipMap() {
+      const canvasArea = document.getElementById('relCanvasArea');
+      const svgLines = document.getElementById('relSvgLines');
+      
+      canvasArea.querySelectorAll('.rel-node').forEach(node => node.remove());
+      svgLines.innerHTML = '';
+
+      let nodes = [];
+      const imgs = imageAvatarRepo[selectedAge];
+
+      if (selectedCharacter === 'Wan') {
+        if (selectedAge === 17) {
+          nodes = [
+            { id: 'wan', label: 'WAN', sub: 'Centro (17 Años)', x: 50, y: 50, color: 'border-red', isCenter: true, img: imgs.Wan },
+            { id: 'tiawi', label: 'Tía Wi / Madre', sub: 'Sirvienta / Madre de Wan', x: 50, y: 15, color: 'border-blue', lineLabel: 'Madre', img: imgs.TiaWi },
+            { id: 'padre', label: 'Padre de Wan', sub: 'Padre', x: 80, y: 22, color: 'border-blue', lineLabel: 'Padre', img: imgs.PadreWan },
+            { id: 'pleng', label: 'PLENG', sub: 'Amor Secreto', x: 85, y: 50, color: 'border-red', lineLabel: 'Alma Gemela', img: imgs.Pleng },
+            { id: 'ek', label: 'Ek', sub: 'Pretendiente', x: 75, y: 82, color: 'border-orange', lineLabel: 'Pretendiente', img: imgs.Ek },
+            { id: 'franco', label: 'Franco', sub: 'Amigo', x: 48, y: 85, color: 'border-green', lineLabel: 'Amigo', img: imgs.Franco },
+            { id: 'mamapleng', label: 'Madre de Pleng', sub: 'Familia Pleng', x: 18, y: 75, color: 'border-blue', lineLabel: 'Patrona', img: imgs.MamaPleng },
+            { id: 'papapleng', label: 'Padre de Pleng', sub: 'Patrón', x: 18, y: 25, color: 'border-blue', lineLabel: 'Patrón', img: imgs.PapaPleng }
+          ];
+        } else {
+          nodes = [
+            { id: 'wan', label: 'WAN', sub: 'Centro (30 Años)', x: 50, y: 50, color: 'border-red', isCenter: true, img: imgs.Wan },
+            { id: 'pleng', label: 'PLENG', sub: 'Affair / Amor', x: 82, y: 42, color: 'border-red', lineLabel: 'Reencuentro', img: imgs.Pleng },
+            { id: 'ek', label: 'Ek', sub: 'Ex Esposo', x: 78, y: 78, color: 'border-orange', lineLabel: 'Ex Esposo', img: imgs.Ek },
+            { id: 'earth', label: 'Earth', sub: 'Rival / No se llevan', x: 55, y: 85, color: 'border-orange', lineLabel: 'Tensión', img: imgs.Earth },
+            { id: 'nueng', label: 'Khun Nueng', sub: 'Amiga de Wan', x: 22, y: 72, color: 'border-green', lineLabel: 'Amiga', img: imgs.Nueng },
+            { id: 'guy', label: 'Guy', sub: 'Compañero de trabajo', x: 28, y: 38, color: 'border-green', lineLabel: 'Colega', img: imgs.Guy },
+            { id: 'tiawi', label: 'Tía Wi / Madre', sub: 'Madre de Wan', x: 50, y: 14, color: 'border-blue', lineLabel: 'Madre', img: imgs.TiaWi },
+            { id: 'padre', label: 'Padre de Wan', sub: 'Padre', x: 72, y: 18, color: 'border-blue', lineLabel: 'Padre', img: imgs.PadreWan }
+          ];
+        }
+      } else {
+        if (selectedAge === 17) {
+          nodes = [
+            { id: 'pleng', label: 'PLENG', sub: 'Centro (17 Años)', x: 50, y: 50, color: 'border-red', isCenter: true, img: imgs.Pleng },
+            { id: 'papapleng', label: 'Padre de Pleng', sub: 'Padre', x: 30, y: 18, color: 'border-blue', lineLabel: 'Padre', img: imgs.PapaPleng },
+            { id: 'mamapleng', label: 'Madre de Pleng', sub: 'Madre', x: 70, y: 18, color: 'border-blue', lineLabel: 'Madre', img: imgs.MamaPleng },
+            { id: 'wan', label: 'WAN', sub: 'Amor Secreto', x: 85, y: 50, color: 'border-red', lineLabel: 'Mejor Amiga / Amor', img: imgs.Wan },
+            { id: 'ek', label: 'Ek', sub: 'Conocido', x: 70, y: 82, color: 'border-orange', lineLabel: 'Pretendiente de Wan', img: imgs.Ek },
+            { id: 'franco', label: 'Franco', sub: 'Amigo', x: 30, y: 82, color: 'border-green', lineLabel: 'Amigo', img: imgs.Franco },
+            { id: 'tiawi', label: 'Tía Wi / Madre Wan', sub: 'Madre de Wan', x: 15, y: 50, color: 'border-blue', lineLabel: 'Madre de Wan', img: imgs.TiaWi }
+          ];
+        } else {
+          nodes = [
+            { id: 'pleng', label: 'PLENG', sub: 'Centro (30 Años)', x: 50, y: 50, color: 'border-red', isCenter: true, img: imgs.Pleng },
+            { id: 'wan', label: 'WAN', sub: 'Amor Reencontrado', x: 82, y: 45, color: 'border-red', lineLabel: 'Alma Gemela', img: imgs.Wan },
+            { id: 'ek', label: 'Ek', sub: 'Ex Esposo de Wan', x: 70, y: 82, color: 'border-orange', lineLabel: 'Jefe / Contratante', img: imgs.Ek },
+            { id: 'earth', label: 'Earth', sub: 'Rival de Wan', x: 30, y: 82, color: 'border-orange', lineLabel: 'Conflicto', img: imgs.Earth },
+            { id: 'tiawi', label: 'Tía Wi / Madre Wan', sub: 'Madre de Wan', x: 18, y: 50, color: 'border-blue', lineLabel: 'Revelación', img: imgs.TiaWi }
+          ];
+        }
+      }
+
+      const centerNode = nodes.find(n => n.isCenter);
+
+      nodes.forEach(node => {
+        const div = document.createElement('div');
+        div.className = `rel-node ${node.isCenter ? 'center' : ''}`;
+        div.style.left = `${node.x}%`;
+        div.style.top = `${node.y}%`;
+        div.dataset.name = node.label.toLowerCase();
+
+        const faceMap = { nueng: 'center 18%', guy: 'center 22%', wan: 'center 18%', pleng: 'center 15%', ek: 'center 18%', earth: 'center 20%', tiawi: 'center 22%', padre: 'center 20%', mamapleng: 'center 22%' };
+        const faceStyle = faceMap[node.id] ? 'object-position: ' + faceMap[node.id] + ';' : 'object-position: center 20%;';
+        div.innerHTML = `
+          <div class="rel-node-avatar ${node.color}">
+            <img alt="${node.label}" style="${faceStyle}">
+          </div>
+          <div class="rel-node-tag">
+            ${node.label}
+            <span class="rel-node-sub">${node.sub}</span>
+          </div>
+        `;
+        canvasArea.appendChild(div);
+        const avatarImg = div.querySelector('img');
+        // Guy y rutas locales en imagenes/ usan el mismo resolver que los recuerdos
+        if (node.img && (node.img.indexOf('imagenes/') === 0 || node.id === 'guy')) {
+          const guyPath = node.id === 'guy' ? 'imagenes/guy.jpg' : node.img;
+          resolveImageSrc(guyPath, avatarImg);
+        } else {
+          avatarImg.src = node.img;
+        }
+
+        if (!node.isCenter && centerNode) {
+          const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+          line.setAttribute('x1', `${centerNode.x}%`);
+          line.setAttribute('y1', `${centerNode.y}%`);
+          line.setAttribute('x2', `${node.x}%`);
+          line.setAttribute('y2', `${node.y}%`);
+          line.setAttribute('stroke', node.color.includes('red') ? '#ff4d6d' : node.color.includes('blue') ? '#4cc9f0' : node.color.includes('orange') ? '#ff9f1c' : '#2ec4b6');
+          line.setAttribute('stroke-width', selectedAge === 17 ? '3.5' : '2');
+          line.setAttribute('stroke-dasharray', node.color.includes('orange') ? '6,6' : 'none');
+          svgLines.appendChild(line);
+
+          if (node.lineLabel) {
+            const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            text.setAttribute('x', `${(centerNode.x + node.x) / 2}%`);
+            text.setAttribute('y', `${(centerNode.y + node.y) / 2}%`);
+            text.setAttribute('fill', '#2c221e');
+            text.setAttribute('font-size', '12');
+            text.setAttribute('font-weight', 'bold');
+            text.setAttribute('text-anchor', 'middle');
+            text.textContent = node.lineLabel;
+            svgLines.appendChild(text);
+          }
+        }
+      });
+    }
+
+    function filterNodes(query) {
+      const q = query.toLowerCase().trim();
+      const nodes = document.querySelectorAll('.rel-node');
+      nodes.forEach(node => {
+        if (!q || node.dataset.name.includes(q)) {
+          node.style.opacity = '1';
+        } else {
+          node.style.opacity = '0.2';
+        }
+      });
+    }
+
+    function addComment() {
+      const authorInput = document.getElementById('authorInput');
+      const textInput = document.getElementById('textInput');
+      const commentsList = document.getElementById('commentsList');
+
+      if (!textInput.value.trim()) return;
+
+      const author = authorInput.value.trim() || 'Anónimo';
+      const text = textInput.value.trim();
+
+      const item = document.createElement('div');
+      item.className = 'comment-item';
+      item.innerHTML = `
+        <div class="comment-author">${author}</div>
+        <div class="comment-text">${text}</div>
+      `;
+
+      commentsList.appendChild(item);
+      textInput.value = '';
+    }
+
+    window.addEventListener('resize', drawRedStrings);
+  </script>
+</body>
+</html>
